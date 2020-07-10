@@ -17,7 +17,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    private String customerId;
+    //private String customerId;
     private String status;
     private String downpayment;
     private float discount;
@@ -28,13 +28,13 @@ public class Order {
     private LocalDateTime orderDate;
     private LocalDateTime returnDate;
 
-    @OneToMany
+    @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @ManyToOne
     private Customer customer;
 
-    @OneToMany
+    @OneToMany(mappedBy = "order")
     private List<Payment> payments = new ArrayList<>();
 
     public float itemsTotal(){

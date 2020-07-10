@@ -15,7 +15,7 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    private Order orderId;
+    //private Order orderId;
     private String paymentType;
     private String description;
     private float amount;

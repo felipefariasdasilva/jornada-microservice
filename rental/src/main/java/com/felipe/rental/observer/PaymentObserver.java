@@ -5,17 +5,17 @@ import com.felipe.rental.model.Payment;
 public class PaymentObserver {
 
     public void created(Payment payment){
-        payment.getOrderId().adjustTotal();
-        payment.getOrderId().adjustBalance();
+        payment.getOrder().adjustTotal();
+        payment.getOrder().adjustBalance();
     }
 
     public void updated(Payment payment){
-        payment.getOrderId().adjustTotal();
-        payment.getOrderId().adjustBalance();
+        payment.getOrder().adjustTotal();
+        payment.getOrder().adjustBalance();
     }
 
     public void deleted(Payment payment){
-        payment.getOrderId().adjustTotal();
-        payment.getOrderId().adjustBalance();
+        payment.getOrder().adjustTotal();
+        payment.getOrder().adjustBalance();
     }
 }
