@@ -28,7 +28,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity postProducts(ProductForm productForm, UriComponentsBuilder uriComponentsBuilder){
+    public ResponseEntity postProducts(@RequestBody ProductForm productForm, UriComponentsBuilder uriComponentsBuilder){
 
         Product product = productForm.convert();
         productRepository.save(product);
