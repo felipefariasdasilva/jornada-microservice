@@ -1,9 +1,10 @@
 package com.felipe.product.model.form;
 
 import com.felipe.product.model.Product;
-import com.sun.istack.internal.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter

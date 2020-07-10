@@ -22,14 +22,15 @@ public class ProductController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping
-    public ResponseEntity getProductsById(){
+    @GetMapping("/{id}")
+    public ResponseEntity getProductsById(@PathVariable String id){
         return ResponseEntity.ok().build();
     }
 
     @PostMapping
     public ResponseEntity postProducts(ProductForm productForm, UriComponentsBuilder uriComponentsBuilder){
 
+        System.out.println(productForm);
         Product product = productForm.convert();
         productRepository.save(product);
 
@@ -37,13 +38,13 @@ public class ProductController {
         return ResponseEntity.created(uri).build();
     }
 
-    @PutMapping
-    public ResponseEntity updateProducts(){
+    @PutMapping("/{id}")
+    public ResponseEntity updateProducts(@PathVariable String id){
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping
-    public ResponseEntity deleteProducts(){
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteProducts(@PathVariable String id){
         return ResponseEntity.ok().build();
     }
 }

@@ -22,6 +22,11 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity getProductById(@PathVariable String id) {
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping
     public ResponseEntity postProducts(UserForm userForm, UriComponentsBuilder uriComponentsBuilder){
 
@@ -32,13 +37,13 @@ public class UserController {
         return ResponseEntity.created(uri).build();
     }
 
-    @PutMapping
-    public ResponseEntity updateProducts() {
+    @PutMapping("/{id}")
+    public ResponseEntity updateProducts(@PathVariable String id) {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping
-    public ResponseEntity deleteProducts() {
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteProducts(@PathVariable String id) {
         return ResponseEntity.ok().build();
     }
 
