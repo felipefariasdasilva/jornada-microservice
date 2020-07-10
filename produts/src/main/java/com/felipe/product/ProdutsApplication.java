@@ -1,4 +1,4 @@
-package com.felipe.produts;
+package com.felipe.product;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
