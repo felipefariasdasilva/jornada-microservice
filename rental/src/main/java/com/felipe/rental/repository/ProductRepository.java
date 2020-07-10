@@ -1,4 +1,7 @@
 package com.felipe.rental.repository;
 
-public interface ProductRepository {
+import com.felipe.rental.model.Product;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ProductRepository extends JpaRepository<Product, String> {
 }

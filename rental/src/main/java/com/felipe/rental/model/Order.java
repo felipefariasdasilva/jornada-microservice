@@ -36,4 +36,38 @@ public class Order {
 
     @OneToMany
     private List<Payment> payments = new ArrayList<>();
+
+    public float itemsTotal(){
+        float totalItem = 0;
+        for (OrderItem orderItem: orderItems) {
+            totalItem += orderItem.getProductId().getPrice();
+        }
+        return totalItem;
+    }
+
+    public float getTotal(){
+        return itemsTotal() + lateFee + deliveryFee - discount;
+    }
+
+    public float totalPayments(){
+        float total  = 0;
+        for (Payment payment : payments) {
+            total = payment.getAmount();
+        }
+        return total;
+    }
+
+    public float adjustBalance(){
+        if(balance != getTotal() - totalPayments()){
+            balance = getTotal() - totalPayments();
+        }
+        return balance;
+    }
+
+    public float adjustTotal() {
+        if(total != getTotal()){
+            balance = getTotal();
+        }
+        return total;
+    }
 }

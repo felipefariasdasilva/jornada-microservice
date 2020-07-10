@@ -17,8 +17,12 @@ public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    private String orderId;
-    private String productId;
+    private Order orderId;
+    private Product productId;
     private String qtd;
     private String total;
+
+    public OrderItem(String orderId, String productId, String qtd, String total) {
+
+    }
 }

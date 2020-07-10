@@ -15,7 +15,7 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    private String orderId;
+    private Order orderId;
     private String paymentType;
     private String description;
     private float amount;
@@ -24,4 +24,7 @@ public class Payment {
     @ManyToOne
     private Order order;
 
+    public Payment(String orderId, String paymentType, String description, float amount, LocalDateTime paymentDate) {
+
+    }
 }

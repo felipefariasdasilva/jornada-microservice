@@ -1,4 +1,7 @@
 package com.felipe.rental.repository;
 
-public interface PaymentRepository {
+import com.felipe.rental.model.Payment;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PaymentRepository extends JpaRepository<Payment, String> {
 }
