@@ -18,11 +18,6 @@ public class Product {
     private UUID id;
     private String name;
 
-
-    public Product(String name, String description, float price, int qtdAvailable, int qtdTotal) {
-        this.name = name;
-    }
-
     public Product(String name) {
         this.name = name;
     }

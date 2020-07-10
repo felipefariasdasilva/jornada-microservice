@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -14,14 +17,15 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    private String customerId;
+    //private String customer_Id;
     private String status;
-    private String discount;
-    private String total;
-    private String orderDate;
+    private float discount;
+    private float total;
+    private LocalDateTime orderDate;
 
     @OneToMany(mappedBy = "order")
-    private OrderItem orderItem;
+    private List<OrderItem> orderItems = new ArrayList<>();
 
+    @ManyToOne
     private Customer customer;
 }

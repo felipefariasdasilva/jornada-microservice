@@ -22,8 +22,8 @@ public class OrderItemController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping
-    public ResponseEntity getOrderItemsById(){
+    @GetMapping("/{id}")
+    public ResponseEntity getOrderItemsById(@PathVariable String id){
         return ResponseEntity.ok().build();
     }
 
@@ -37,13 +37,13 @@ public class OrderItemController {
         return ResponseEntity.created(uri).build();
     }
 
-    @PutMapping
-    public ResponseEntity updateOrderItems(){
+    @PutMapping("/{id}")
+    public ResponseEntity updateOrderItems(@PathVariable String id){
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping
-    public ResponseEntity deleteOrderItems(){
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteOrderItems(@PathVariable String id){
         return ResponseEntity.ok().build();
     }
 }

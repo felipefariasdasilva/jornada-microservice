@@ -1,11 +1,8 @@
 package com.felipe.consumer.controller;
 
 import com.felipe.consumer.model.Customer;
-import com.felipe.consumer.model.Product;
 import com.felipe.consumer.model.form.CustomerForm;
-import com.felipe.consumer.model.form.ProductForm;
 import com.felipe.consumer.repository.CustomerRepository;
-import com.felipe.consumer.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +22,8 @@ public class CustomerController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping
-    public ResponseEntity getCustomerById(){
+    @GetMapping("/{id}")
+    public ResponseEntity getCustomerById(@PathVariable String id){
         return ResponseEntity.ok().build();
     }
 
@@ -40,13 +37,13 @@ public class CustomerController {
         return ResponseEntity.created(uri).build();
     }
 
-    @PutMapping
-    public ResponseEntity updateCustomers(){
+    @PutMapping("/{id}")
+    public ResponseEntity updateCustomers(@PathVariable String id){
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping
-    public ResponseEntity deleteCustomers(){
+    public ResponseEntity deleteCustomers(@PathVariable String id){
         return ResponseEntity.ok().build();
     }
 }
