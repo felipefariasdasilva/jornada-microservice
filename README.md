@@ -1,4 +1,4 @@
-# :sparkler: Jornada Microservice
+# :trophy: Jornada Microservice
 
 Aplicação Java de Microsserviços, utilizando o Kafka e Docker.
 
