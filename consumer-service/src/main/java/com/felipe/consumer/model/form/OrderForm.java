@@ -10,11 +10,10 @@ public class OrderForm {
 
     private String customerId;
     private String status;
-    private String discount;
-    private String total;
-    private String orderDate;
+    private float discount;
+    private float total;
 
     public Order convert() {
-        return new Order();
+        return new Order(customerId, status, discount, total);
     }
 }

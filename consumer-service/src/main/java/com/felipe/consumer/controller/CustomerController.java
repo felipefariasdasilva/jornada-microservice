@@ -13,6 +13,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/customers")
@@ -22,24 +23,22 @@ public class CustomerController {
     private CustomerRepository customerRepository;
 
     @GetMapping
-    public List<CustomerDTO> getCustomers(){
+    public List<CustomerDTO> getCustomers() {
         List<Customer> customers = customerRepository.findAll();
         List<CustomerDTO> customerDTOS = new ArrayList<>();
 
-        for (Customer customer: customers) {
-            customerDTOS.add(new CustomerDTO(customer));
-        }
+        customers.forEach(customer -> customerDTOS.add(new CustomerDTO(customer)));
+
         return customerDTOS;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getCustomerById(@PathVariable String id){
+    public ResponseEntity getCustomerById(@PathVariable String id) {
         return ResponseEntity.ok().build();
     }
 
     @PostMapping
-    public ResponseEntity postCustomers(@RequestBody CustomerForm customerForm, UriComponentsBuilder uriComponentsBuilder){
-        System.out.println(customerForm.toString());
+    public ResponseEntity postCustomers(@RequestBody CustomerForm customerForm, UriComponentsBuilder uriComponentsBuilder) {
         Customer customer = customerForm.convert();
         customerRepository.save(customer);
 
@@ -48,20 +47,22 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updateCustomers(@PathVariable String id){
-        Optional<Customer> byId = customerRepository.findById(id);
-        if(byId.isPresent()){
-            System.out.println("achei");
-            return ResponseEntity.ok().build();
-        }else{
-            System.out.println("nao achei");
-            return ResponseEntity.notFound().build();
-        }
-
+    public ResponseEntity updateCustomers(@PathVariable String id) {
+        Optional<Customer> customerbyId = customerRepository.findById(UUID.fromString(id));
+        return customerbyId.isPresent()
+                ? ResponseEntity.ok(new CustomerDTO(customerbyId.get()))
+                : ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping
-    public ResponseEntity deleteCustomers(@PathVariable String id){
-        return ResponseEntity.ok().build();
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteCustomers(@PathVariable String id) {
+        Optional<Customer> customerbyId = customerRepository.findById(UUID.fromString(id));
+
+        if(customerbyId.isPresent()){
+            customerRepository.delete(customerbyId.get());
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+
     }
 }
