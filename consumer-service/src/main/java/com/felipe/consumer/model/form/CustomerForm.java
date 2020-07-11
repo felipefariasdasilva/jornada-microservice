@@ -17,6 +17,6 @@ public class CustomerForm {
     private String zipcode;
 
     public Customer convert() {
-        return new Customer();
+        return new Customer(name, email, phone, address, city, state, zipcode);
     }
 }

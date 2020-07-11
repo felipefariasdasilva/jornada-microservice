@@ -1,6 +1,7 @@
 package com.felipe.consumer.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 public class Customer {
 
     @Id
@@ -26,4 +28,14 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer")
     private List<Order> orders = new ArrayList<>();
+
+    public Customer(String name, String email, String phone, String address, String city, String state, String zipcode) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.city = city;
+        this.state = state;
+        this.zipcode = zipcode;
+    }
 }
