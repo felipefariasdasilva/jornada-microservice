@@ -27,7 +27,7 @@ public class Customer {
     private String zipcode;
 
     @OneToMany(mappedBy = "customer")
-    private List<Order> orders = new ArrayList<>();
+    private List<Theorder> orders = new ArrayList<>();
 
     public Customer(String name, String email, String phone, String address, String city, String state, String zipcode) {
         this.name = name;

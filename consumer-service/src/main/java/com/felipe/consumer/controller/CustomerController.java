@@ -27,7 +27,9 @@ public class CustomerController {
         List<Customer> customers = customerRepository.findAll();
         List<CustomerDTO> customerDTOS = new ArrayList<>();
 
-        customers.forEach(customer -> customerDTOS.add(new CustomerDTO(customer)));
+        for (Customer customer: customers) {
+            customerDTOS.add(new CustomerDTO(customer));
+        }
 
         return customerDTOS;
     }

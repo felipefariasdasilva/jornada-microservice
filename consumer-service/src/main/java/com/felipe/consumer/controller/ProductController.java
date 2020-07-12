@@ -1,9 +1,9 @@
 package com.felipe.consumer.controller;
 
-import com.felipe.consumer.model.Order;
 import com.felipe.consumer.model.Product;
 import com.felipe.consumer.model.dto.ProductDTO;
 import com.felipe.consumer.model.form.ProductForm;
+import com.felipe.consumer.repository.OrderItemRepository;
 import com.felipe.consumer.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,42 +20,44 @@ import java.util.UUID;
 @RequestMapping("/products")
 public class ProductController {
 
-    @Autowired
-    private ProductRepository productRepository;
+        @Autowired
+        private ProductRepository productRepository;
+        @Autowired
+        private OrderItemRepository orderItemRepository;
 
-    @GetMapping
-    public List<ProductDTO> getProducts(){
-        List<Product> products = productRepository.findAll();
-        List<ProductDTO> productDTOS = new ArrayList<>();
+        @GetMapping
+        public List<ProductDTO> getProducts(){
+            List<Product> products = productRepository.findAll();
+            List<ProductDTO> productDTOS = new ArrayList<>();
 
-        products.forEach(product -> productDTOS.add(new ProductDTO(product)));
+            products.forEach(product -> productDTOS.add(new ProductDTO(product)));
 
-        return productDTOS;
-    }
+            return productDTOS;
+        }
 
-    @GetMapping("/{id}")
-    public ResponseEntity getProductsById(@PathVariable String id){
-        return ResponseEntity.ok().build();
-    }
+        @GetMapping("/{id}")
+        public ResponseEntity getProductsById(@PathVariable String id){
+            return ResponseEntity.ok().build();
+        }
 
-    @PostMapping
-    public ResponseEntity postProducts(@RequestBody ProductForm productForm, UriComponentsBuilder uriComponentsBuilder){
+        @PostMapping
+        public ResponseEntity postProducts(@RequestBody ProductForm productForm, UriComponentsBuilder uriComponentsBuilder){
 
-        Product product = productForm.convert();
-        productRepository.save(product);
+            Product product = productForm.convert(orderItemRepository);
+            productRepository.save(product);
 
-        URI uri = uriComponentsBuilder.path("/products/{id}").buildAndExpand(product.getId()).toUri();
-        return ResponseEntity.created(uri).body(new ProductDTO(product));
-    }
+            URI uri = uriComponentsBuilder.path("/products/{id}").buildAndExpand(product.getId()).toUri();
+            return ResponseEntity.created(uri).body(new ProductDTO(product));
+        }
 
-    @PutMapping("/{id}")
-    public ResponseEntity updateProducts(@PathVariable String id){
-        Optional<Product> productById = productRepository.findById(UUID.fromString(id));
-        return productById.isPresent() ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
-    }
+        @PutMapping("/{id}")
+        public ResponseEntity updateProducts(@PathVariable String id){
+            Optional<Product> productById = productRepository.findById(UUID.fromString(id));
+            return productById.isPresent() ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+        }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity deleteProducts(@PathVariable String id){
-        return ResponseEntity.ok().build();
-    }
+        @DeleteMapping("/{id}")
+        public ResponseEntity deleteProducts(@PathVariable String id){
+            return ResponseEntity.ok().build();
+        }
 }

@@ -1,10 +1,10 @@
 package com.felipe.consumer.controller;
 
-import com.felipe.consumer.model.Order;
 import com.felipe.consumer.model.OrderItem;
 import com.felipe.consumer.model.dto.OrderItemDTO;
 import com.felipe.consumer.model.form.OrderItemForm;
 import com.felipe.consumer.repository.OrderItemRepository;
+import com.felipe.consumer.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +22,8 @@ public class OrderItemController {
 
     @Autowired
     private OrderItemRepository orderItemRepository;
+    @Autowired
+    private OrderRepository orderRepository;
 
     @GetMapping
     public List<OrderItemDTO> getOrderItems(){
@@ -41,7 +43,7 @@ public class OrderItemController {
     @PostMapping
     public ResponseEntity postOrderItems(@RequestBody OrderItemForm orderItemForm, UriComponentsBuilder uriComponentsBuilder){
 
-        OrderItem orderItem = orderItemForm.convert();
+        OrderItem orderItem = orderItemForm.convert(orderRepository);
         orderItemRepository.save(orderItem);
 
         URI uri = uriComponentsBuilder.path("/order-items/{id}").buildAndExpand(orderItem.getId()).toUri();

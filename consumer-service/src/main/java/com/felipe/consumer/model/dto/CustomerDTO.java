@@ -1,7 +1,6 @@
 package com.felipe.consumer.model.dto;
 
 import com.felipe.consumer.model.Customer;
-import com.felipe.consumer.model.Order;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +20,7 @@ public class CustomerDTO {
     private String city;
     private String state;
     private String zipcode;
+
     private List<OrderDTO> orders;
 
     public CustomerDTO(Customer customer) {
