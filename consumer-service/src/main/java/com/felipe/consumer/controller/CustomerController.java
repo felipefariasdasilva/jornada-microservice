@@ -4,6 +4,7 @@ import com.felipe.consumer.model.Customer;
 import com.felipe.consumer.model.dto.CustomerDTO;
 import com.felipe.consumer.model.form.CustomerForm;
 import com.felipe.consumer.repository.CustomerRepository;
+import com.felipe.consumer.subscriber.KafkaDispatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/customers")
@@ -43,6 +45,15 @@ public class CustomerController {
     public ResponseEntity postCustomers(@RequestBody CustomerForm customerForm, UriComponentsBuilder uriComponentsBuilder) {
         Customer customer = customerForm.convert();
         customerRepository.save(customer);
+
+        KafkaDispatcher customerDispatcher = new KafkaDispatcher<Customer>();
+        try {
+            customerDispatcher.send("CUSTOMER_TOPIC", customer.getId().toString(), customer);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         URI uri = uriComponentsBuilder.path("/customers/{id}").buildAndExpand(customer.getId()).toUri();
         return ResponseEntity.created(uri).body(new CustomerDTO(customer));

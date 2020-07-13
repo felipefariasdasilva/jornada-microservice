@@ -1,9 +1,7 @@
 package com.felipe.consumer.subscriber;
 
 import com.fasterxml.jackson.databind.ser.std.StringSerializer;
-import com.felipe.consumer.model.Product;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
