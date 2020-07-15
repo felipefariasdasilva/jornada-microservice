@@ -2,7 +2,7 @@ package com.felipe.consumer.subscriber;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
-public class ProductService<Product> {
+public class ProductService {
 
     public ProductService() {
         init();
@@ -10,7 +10,7 @@ public class ProductService<Product> {
 
     private void init() {
         String simpleName = ProductService.class.getSimpleName();
-        String topic = "PRODUCT_TOPIC";
+        String topic = "PRODUCTSERVICE_NEW_PRODUCT";
 
         KafkaService kafkaService = new KafkaService(
                 simpleName,
