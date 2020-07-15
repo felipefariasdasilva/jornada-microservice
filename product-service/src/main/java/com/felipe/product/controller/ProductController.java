@@ -8,11 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+import pubsub.KafkaDispatcher;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/products")
@@ -40,10 +43,13 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity postProducts(@RequestBody ProductForm productForm, UriComponentsBuilder uriComponentsBuilder){
+    public ResponseEntity postProducts(@RequestBody ProductForm productForm, UriComponentsBuilder uriComponentsBuilder) throws ExecutionException, InterruptedException, IOException {
         System.out.println("json: "+productForm.toString());
         Product product = productForm.convert();
         productRepository.save(product);
+
+        KafkaDispatcher<Product> productDispatcher = new KafkaDispatcher<>();
+        productDispatcher.send("PRODUCTSERVICE_NEW_PRODUCT", product.getId().toString(), product);
 
         URI uri = uriComponentsBuilder.path("/products/{id}").buildAndExpand(product.getId()).toUri();
         return ResponseEntity.created(uri).body(new ProductDTO(product));
