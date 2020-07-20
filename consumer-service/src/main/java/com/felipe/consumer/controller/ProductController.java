@@ -5,16 +5,21 @@ import com.felipe.consumer.model.dto.ProductDTO;
 import com.felipe.consumer.model.form.ProductForm;
 import com.felipe.consumer.repository.OrderItemRepository;
 import com.felipe.consumer.repository.ProductRepository;
+import com.felipe.consumer.subscriber.KafkaService;
+import com.felipe.consumer.subscriber.ProductService;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/products")
@@ -26,7 +31,7 @@ public class ProductController {
         private OrderItemRepository orderItemRepository;
 
         @GetMapping
-        public List<ProductDTO> getProducts(){
+        public List<ProductDTO> getProducts() throws IOException {
             List<Product> products = productRepository.findAll();
             List<ProductDTO> productDTOS = new ArrayList<>();
 

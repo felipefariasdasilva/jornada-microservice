@@ -1,15 +1,20 @@
 package com.felipe.consumer.subscriber;
 
-import com.fasterxml.jackson.databind.ser.std.StringSerializer;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
+import java.io.Closeable;
+import java.io.IOException;
+import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
 import java.util.UUID;
 
-public class KafkaService<T> {
+public class KafkaService<T> implements Closeable {
 
     private KafkaConsumer<String, T> consumer;
     private final ConsumerFunction parse;
@@ -21,8 +26,14 @@ public class KafkaService<T> {
     }
 
     public void run() {
-        System.out.println("metodo run...");
-        while (true){
+        while(true){
+            ConsumerRecords<String, T> records = consumer.poll(Duration.ofMillis(100));
+            if(!records.isEmpty()){
+                System.out.println("Encontrei " + records.count() + " registros");
+                for (ConsumerRecord<String, T> record : records) {
+                    parse.consume(record);
+                }
+            }
         }
     }
 
@@ -36,5 +47,10 @@ public class KafkaService<T> {
         properties.setProperty(ConsumerConfig.CLIENT_ID_CONFIG, UUID.randomUUID().toString());
 
         return properties;
+    }
+
+    @Override
+    public void close() throws IOException {
+        consumer.close();
     }
 }

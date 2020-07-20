@@ -5,10 +5,6 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 public class ProductService {
 
     public ProductService() {
-        init();
-    }
-
-    private void init() {
         String simpleName = ProductService.class.getSimpleName();
         String topic = "PRODUCTSERVICE_NEW_PRODUCT";
 
@@ -21,7 +17,7 @@ public class ProductService {
         kafkaService.run();
     }
 
-    private static void parse(ConsumerRecord consumerRecord) {
+    public static void parse(ConsumerRecord consumerRecord) {
         System.out.println("-------------------------------------------");
         System.out.println("product consumed");
         System.out.println(consumerRecord.key());
